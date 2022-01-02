@@ -6,7 +6,7 @@ public:
         int n=matrix[0].size();
         int lo=matrix[0][0];
         int hi=matrix[m-1][n-1];
-        while(lo<hi)
+        while(lo<=hi)
         {
             int mid=lo+(hi-lo)/2;
             int count=0;
@@ -20,7 +20,7 @@ public:
             }
             else
             {
-                hi=mid;
+                hi=mid-1;
             }
         }
         return lo;
