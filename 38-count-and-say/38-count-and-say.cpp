@@ -6,6 +6,10 @@ public:
        {
            return "1";
        }
+        if(n==2)
+        {
+            return "11";
+        }
        string s=countAndSay(n-1);
        int counter=0;
        string rst="";
