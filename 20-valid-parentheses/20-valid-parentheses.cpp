@@ -11,14 +11,14 @@ public:
            }
            else
            {
-               if(st.empty() or (st.top()=='(' and s[i]!=')') or                      (st.top()=='{' and s[i]!='}') or (st.top()=='[' and s[i]!=']'))
-           {
+               if(st.empty() or (st.top()=='(' and s[i]!=')') or (st.top()=='{' and s[i]!='}') or (st.top()=='[' and s[i]!=']'))
+               {
                return false;
-           }
-            else
-            {
+               }
+               else
+               {
               st.pop();  
-            }
+               }
            }
         }
         return st.empty();
