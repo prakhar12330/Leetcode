@@ -9,7 +9,9 @@ public:
            {
                st.push(s[i]);
            }
-           else if(st.empty() or (st.top()=='(' and s[i]!=')') or                      (st.top()=='{' and s[i]!='}') or (st.top()=='[' and s[i]!=']'))
+           else
+           {
+               if(st.empty() or (st.top()=='(' and s[i]!=')') or                      (st.top()=='{' and s[i]!='}') or (st.top()=='[' and s[i]!=']'))
            {
                return false;
            }
@@ -17,6 +19,7 @@ public:
             {
               st.pop();  
             }
+           }
         }
         return st.empty();
     }
