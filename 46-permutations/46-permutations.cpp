@@ -1,39 +1,24 @@
 class Solution {
 public:
-    
-    void recursivePermu(vector<int>& nums,vector<vector<int>> &ans,vector<int> &ds,int freq[])
+    void recurPermu(int idx,vector<int>& nums,vector<vector<int>> &ans)
     {
-        //base case
-        if(ds.size()==nums.size())
+        if(idx==nums.size())
         {
-            ans.push_back(ds);
+            ans.push_back(nums);
             return;
         }
-        for(int i=0;i<nums.size();i++)
+        for(int i=idx;i<nums.size();i++)
         {
-            if(!freq[i])
-            {
-                ds.push_back(nums[i]);
-                freq[i]=1;
-                recursivePermu(nums,ans,ds,freq);
-                freq[i]=0;
-                ds.pop_back();
-            }
-            
+            swap(nums[idx],nums[i]);
+            recurPermu(idx+1,nums,ans);
+            swap(nums[idx],nums[i]);
         }
-        
         
     }
     vector<vector<int>> permute(vector<int>& nums) 
     {
-        vector<vector<int>> ans;
-        vector<int>ds;
-        int frequency[nums.size()];
-        for(int i=0;i<nums.size();i++)
-        {
-            frequency[i]=0;
-        }
-        recursivePermu(nums,ans,ds,frequency);
+        vector<vector<int>>ans;
+        recurPermu(0,nums,ans);
         return ans;
     }
 };
