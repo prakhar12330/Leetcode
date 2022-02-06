@@ -23,7 +23,7 @@ public:
             {
                 lo=mid+1;
             }
-            else if(nums[hi]>=nums[mid])
+            else //if(nums[hi]>=nums[mid])
             {
                 hi=mid-1;
             }
