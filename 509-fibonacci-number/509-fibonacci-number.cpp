@@ -1,16 +1,17 @@
-// Bottom-Up Approach
+// Space Optimization
 class Solution {
 public:
     int fib(int n)
     {
-        vector<int>dp(n+1);
         if(n<2)return n;
-        dp[0]=0;
-        dp[1]=1;
+        int prev01=0;
+        int prev02=1;
         for(int i=2;i<n+1;i++)
         {
-            dp[i]=dp[i-1]+dp[i-2];
+            int curr=prev01+prev02;
+            prev01=prev02;
+            prev02=curr;
         }
-        return dp[n];  
+        return prev02;  
     }
 };
