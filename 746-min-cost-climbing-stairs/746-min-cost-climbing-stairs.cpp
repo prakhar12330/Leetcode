@@ -1,4 +1,4 @@
-//Bottom-Up Approach
+//Space Optimization
 class Solution {
 public:
     
@@ -7,15 +7,17 @@ public:
         //Step01-Creation of dp array
         vector<int>dp(n+1);
         //Step02-base case analysis
-        dp[0]=cost[0];
-        dp[1]=cost[1];
+        int prev01=cost[0];
+        int prev02=cost[1];
         //Step03
         for(int i=2;i<n;i++)
         {
-            dp[i]=cost[i]+min(dp[i-1],dp[i-2]);
+            int curr=cost[i]+min(prev01,prev02);
+            prev01=prev02;
+            prev02=curr;
         }
         
-        return min(dp[n-1],dp[n-2]);
+        return min(prev01,prev02);
         
     }
     int minCostClimbingStairs(vector<int>& cost) 
