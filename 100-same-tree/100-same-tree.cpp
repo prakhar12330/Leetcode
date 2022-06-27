@@ -22,7 +22,7 @@ public:
         {
             return false;
         }
-      
-        return ((p->val==q->val) && isSameTree(p->left,q->left)&& isSameTree(p->right,q->right));
+        if(p->val !=q->val)return false; 
+        return (isSameTree(p->left,q->left)&& isSameTree(p->right,q->right));
     }
 };
