@@ -3,7 +3,7 @@ public:
     vector<int> nextGreaterElements(vector<int>& nums)
     {
         int n=nums.size();
-        vector<int>result(n,-1);
+        vector<int>result(n);
         stack<int>s;
         for(int i=2*n-1;i>=0;i--)
         {
@@ -13,7 +13,14 @@ public:
             }
             if(i<n)
             {
-                if(!s.empty())result[i]=s.top();
+                if(!s.empty())
+                {
+                    result[i]=s.top();
+                }
+                else
+                {
+                    result[i]=-1;
+                } 
                 
             }
             s.push(nums[i%n]);
