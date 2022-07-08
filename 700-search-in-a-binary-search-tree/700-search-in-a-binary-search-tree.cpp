@@ -16,7 +16,7 @@ public:
         //Base Case
         if(root==NULL)return root;
         
-        TreeNode* ans=new TreeNode();
+        TreeNode* ans=NULL;
         
         
         if(val_< root->val)
