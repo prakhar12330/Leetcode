@@ -5,16 +5,14 @@ public:
         //Edge Case
         //if the size of both the array are not the same then directrly return false;
         if(s.size()!=t.size())return false;
-        unordered_map<char,int>mp;
+        int count[26]={0};
         for(int i=0;i<s.size();i++)
         {
-            mp[s[i]]++;
-            mp[t[i]]--;
+            count[s[i]-'a']++;
+            count[t[i]-'a']--;
         }
-        for(auto count:mp)
-        {
-            if(count.second)return false;
-        }
+        for (int i = 0; i < 26; i++)
+            if (count[i]) return false;
         return true;
         
         
