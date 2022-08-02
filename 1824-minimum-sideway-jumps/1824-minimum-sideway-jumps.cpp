@@ -1,17 +1,18 @@
-//Bottom Up Approach
+//Space Optimization
 class Solution {
 public:
     
     
     int solveTab(vector<int>& obstacles)
     {
-        int n=obstacles.size()-1;//End Pos
-        vector<vector<int>>dp(4,vector<int>(obstacles.size(),-1));
+        int n=obstacles.size()-1;
+       vector<int>curr(4,INT_MAX);
+       vector<int>next(4,INT_MAX);
         
-        dp[0][n]=0;
-        dp[1][n]=0;
-        dp[2][n]=0;
-        dp[3][n]=0;
+        next[0]=0;
+        next[1]=0;
+        next[2]=0;
+        next[3]=0;
         
         for(int currpos=n-1;currpos>=0;currpos--)
         {
@@ -19,7 +20,7 @@ public:
             {
                if(obstacles[currpos+1] !=currlane)
                  {
-                    dp[currlane][currpos]=dp[currlane][currpos+1]; 
+                   curr[currlane]=next[currlane]; 
                  }
                 else
                  {
@@ -29,16 +30,17 @@ public:
                         {
                           if(currlane!=i && obstacles[currpos]!=i)
                          {
-                            ans=min(ans,1+dp[i][currpos+1]);
+                            ans=min(ans,1+next[i]);
                          }
-                          dp[currlane][currpos]= ans; 
+                          curr[currlane]= ans; 
                          }
             
                } 
             }
+            next=curr;
         }
         
-        return min(dp[2][0],min(1+dp[1][0],1+dp[3][0]));
+        return min(next[2],min(1+next[1],1+next[3]));
         
     }
     int minSideJumps(vector<int>& obstacles)
