@@ -1,8 +1,8 @@
-//Top Down Approach
+//Bottom Up Approach
 class Solution {
 public:
     #define MOD 1000000007
-    int solveMem(int d,int f,int t)
+    int solveTab(int d,int f,int t)
     {
         vector<vector<int>>dp(d+1,vector<int>(t+1,0));
         dp[0][0]=1;//after analysing base case
@@ -27,6 +27,6 @@ public:
     int numRollsToTarget(int n, int k, int target)
     {
 
-        return solveMem(n,k,target);
+        return solveTab(n,k,target);
     }
 };
