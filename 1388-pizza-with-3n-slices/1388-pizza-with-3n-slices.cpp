@@ -1,32 +1,43 @@
-//Top Down Approach
+//Bottom Up Approach
 class Solution {
 public:
     
-    int solveMem(vector<int>& slices,int idx,int endIdx,int myLimit,vector<vector<int>>&dp)
+    int solveTab(vector<int>& slices)
     {
-        //Base Case-->agar maine apni limit poori krli hai ya  humara  index pointer end index ke aage nikal gya hai
-        if(myLimit==0 || idx>endIdx)
-        {
-            return 0;
-        }
-        if(dp[idx][myLimit]!=-1)
-        {
-            return dp[idx][myLimit];
-        }
+        int k=slices.size();
+        vector<vector<int>>dp1(k+2,vector<int>(k+2,0));
+        vector<vector<int>>dp2(k+2,vector<int>(k+2,0));
         
-        int take=slices[idx]+solveMem(slices,idx+2,endIdx,myLimit-1,dp);
-        int leave=0+solveMem(slices,idx+1,endIdx,myLimit,dp);
-        dp[idx][myLimit]=max(take,leave);
         
-        return dp[idx][myLimit];
+        for(int idx=k-2;idx>=0;idx--)
+        {
+            for(int myLimit=1;myLimit<=k/3;myLimit++)
+            {
+              int take=slices[idx]+dp1[idx+2][myLimit-1];
+              int leave=0+dp1[idx+1][myLimit];
+              dp1[idx][myLimit]=max(take,leave); 
+            }
+        }
+        int case01=dp1[0][k/3];
+        
+        for(int idx=k-1;idx>=1;idx--)
+        {
+            for(int myLimit=1;myLimit<=k/3;myLimit++)
+            {
+              int take=slices[idx]+dp2[idx+2][myLimit-1];
+              int leave=0+dp2[idx+1][myLimit];
+              dp2[idx][myLimit]=max(take,leave); 
+            }
+        }
+        int case02=dp2[1][k/3];
+        
+        return max(case01,case02);
     }
     int maxSizeSlices(vector<int>& slices)
     {
-        int k=slices.size();//No. of Slices;
-        vector<vector<int>>dp1(k,vector<int>(k,-1));
-        int includeone=solveMem(slices,0,k-2,k/3,dp1);//Case when one is included ,also k/3 is the max. no. of slices i can eat 
-        vector<vector<int>>dp2(k,vector<int>(k,-1));
-        int excludeone=solveMem(slices,1,k-1,k/3,dp2);//Case when one is not included
+
+        int includeone=solveTab(slices); 
+        int excludeone=solveTab(slices);
         return max(includeone,excludeone);
     }
 };
