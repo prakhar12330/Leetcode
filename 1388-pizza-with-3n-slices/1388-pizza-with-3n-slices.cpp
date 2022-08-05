@@ -5,31 +5,40 @@ public:
     int solveTab(vector<int>& slices)
     {
         int k=slices.size();
-        vector<vector<int>>dp1(k+2,vector<int>(k+2,0));
-        vector<vector<int>>dp2(k+2,vector<int>(k+2,0));
+        vector<int>prev1(k+2,0);
+        vector<int>curr1(k+2,0);
+        vector<int>next1(k+2,0);
+        
+        vector<int>prev2(k+2,0);
+        vector<int>curr2(k+2,0);
+        vector<int>next2(k+2,0);
         
         
         for(int idx=k-2;idx>=0;idx--)
         {
             for(int myLimit=1;myLimit<=k/3;myLimit++)
             {
-              int take=slices[idx]+dp1[idx+2][myLimit-1];
-              int leave=0+dp1[idx+1][myLimit];
-              dp1[idx][myLimit]=max(take,leave); 
+              int take=slices[idx]+next1[myLimit-1];
+              int leave=0+curr1[myLimit];
+              prev1[myLimit]=max(take,leave); 
             }
+            next1=curr1;
+            curr1=prev1;
         }
-        int case01=dp1[0][k/3];
+        int case01=curr1[k/3];
         
         for(int idx=k-1;idx>=1;idx--)
         {
             for(int myLimit=1;myLimit<=k/3;myLimit++)
             {
-              int take=slices[idx]+dp2[idx+2][myLimit-1];
-              int leave=0+dp2[idx+1][myLimit];
-              dp2[idx][myLimit]=max(take,leave); 
+              int take=slices[idx]+next2[myLimit-1];
+              int leave=0+curr2[myLimit];
+              prev2[myLimit]=max(take,leave); 
             }
+             next2=curr2;
+             curr2=prev2;
         }
-        int case02=dp2[1][k/3];
+        int case02=curr2[k/3];
         
         return max(case01,case02);
     }
