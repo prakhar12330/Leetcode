@@ -1,15 +1,17 @@
-//Bottom Up Approach
+//Space Optimised
 class Solution {
 public:
     
     bool solveTab(vector<int>&nums,int target)
     {
        int n =nums.size();
-       vector<vector<int>>dp(n+1,vector<int>(target+1,0));
-       for(int i=0;i<=n;i++)
-       {
-           dp[i][0]=1;
-       }
+        
+        vector<int>curr(target+1,0);
+        vector<int>next(target+1,0);
+        
+        curr[0]=1;
+        next[0]=1;
+       
        for(int idx=n-1;idx>=0;idx--)
        {
         for(int totalSum=0;totalSum<=target;totalSum++)
@@ -17,14 +19,15 @@ public:
             bool include=0;
             if(totalSum-nums[idx]>=0)
             {
-            include=dp[idx+1][totalSum-nums[idx]];
+            include=next[totalSum-nums[idx]];
             }
-            bool exclude=dp[idx+1][totalSum-0];
+            bool exclude=next[totalSum-0];
         
-            dp[idx][totalSum]=include or exclude;
+            curr[totalSum]=include or exclude;
          }
+           next=curr;
        }
-        return dp[0][target];
+        return next[target];
     }
     bool canPartition(vector<int>& nums)
     {
