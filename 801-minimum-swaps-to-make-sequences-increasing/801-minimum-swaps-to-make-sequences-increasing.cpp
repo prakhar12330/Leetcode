@@ -1,48 +1,49 @@
-//Top Down Approach
+//Bottom Up Approach
 class Solution {
 public:
-    int solveMem(vector<int>& nums1, vector<int>& nums2,int idx,bool recentlySwapped,vector<vector<int>>&dp)
+    
+    int solveTab(vector<int>& nums1, vector<int>& nums2)
     {
-        //Base Case-->When The Index Pointer Reaches Outside The Array
-        if(idx==nums1.size())
-        {
-            return 0;
-        }
-        int ans=INT_MAX;
+        int n=nums1.size();
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
         
-        int prev01=nums1[idx-1];
-        int prev02=nums2[idx-1];
+        for(int idx=n-1;idx>=1;idx--)
+        {
+            for(int recentlySwapped=1;recentlySwapped>=0;recentlySwapped--)
+            {
+                int ans=INT_MAX;
         
-        if(dp[idx][recentlySwapped]!=-1)
-        {
-            return dp[idx][recentlySwapped];
-        }
+                int prev01=nums1[idx-1];
+                int prev02=nums2[idx-1];
         
-        if(recentlySwapped)
-        {
-            swap(prev01,prev02);
-        }
-        //noswap
-        if(nums1[idx]>prev01 && nums2[idx]>prev02)
-        {
-            ans=solveMem(nums1,nums2,idx+1,0,dp);
-        }
-        //swap
-        if(nums1[idx]>prev02 && nums2[idx]>prev01)
-        {
-            ans=min(ans,1+solveMem(nums1,nums2,idx+1,1,dp));
-        }
         
-        dp[idx][recentlySwapped]=ans;
-        return dp[idx][recentlySwapped];
+                 if(recentlySwapped)
+                 {
+                    swap(prev01,prev02);
+                 }
+                  //noswap
+                  if(nums1[idx]>prev01 && nums2[idx]>prev02)
+                 {
+                    ans=dp[idx+1][0];
+                  }
+                  //swap
+                  if(nums1[idx]>prev02 && nums2[idx]>prev01)
+                   {
+                     ans=min(ans,1+dp[idx+1][1]);
+                   }
+        
+                   dp[idx][recentlySwapped]=ans;
+            
+            }
+        }
+        return dp[1][0];
+        
     }
     int minSwap(vector<int>& nums1, vector<int>& nums2)
     {
-        bool recentlySwapped =0;
+
         nums1.insert(nums1.begin(),-1);
         nums2.insert(nums2.begin(),-1);
-        int n=nums1.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
-        return solveMem(nums1,nums2,1,recentlySwapped,dp);
+        return solveTab(nums1,nums2);
     }
 };
