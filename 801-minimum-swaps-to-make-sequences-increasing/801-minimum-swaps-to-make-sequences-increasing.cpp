@@ -7,6 +7,9 @@ public:
         int n=nums1.size();
         vector<vector<int>>dp(n+1,vector<int>(2,0));
         
+        vector<int>curr(2,0);
+        vector<int>next(2,0);
+        
         for(int idx=n-1;idx>=1;idx--)
         {
             for(int recentlySwapped=1;recentlySwapped>=0;recentlySwapped--)
@@ -24,19 +27,20 @@ public:
                   //noswap
                   if(nums1[idx]>prev01 && nums2[idx]>prev02)
                  {
-                    ans=dp[idx+1][0];
+                    ans=next[0];
                   }
                   //swap
                   if(nums1[idx]>prev02 && nums2[idx]>prev01)
                    {
-                     ans=min(ans,1+dp[idx+1][1]);
+                     ans=min(ans,1+next[1]);
                    }
         
-                   dp[idx][recentlySwapped]=ans;
+                   curr[recentlySwapped]=ans;
             
             }
+            next=curr;
         }
-        return dp[1][0];
+        return next[0];
         
     }
     int minSwap(vector<int>& nums1, vector<int>& nums2)
