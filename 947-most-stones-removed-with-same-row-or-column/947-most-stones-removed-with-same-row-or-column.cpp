@@ -1,7 +1,9 @@
 class Solution {
     vector<int>parent;
-    int find(int x) {
-        return parent[x] == x ? x : find(parent[x]);
+    int find(int x)
+    {
+        if(x==parent[x])return x;
+        return find(parent[x]);
     }
 public:
     int removeStones(vector<vector<int>>& stones) {
