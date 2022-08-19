@@ -2,26 +2,29 @@
 class Solution {
 public:
     
-    int solveMem(int n, vector<int>&dp)
+    int solveTab(int n)
     {
-         if(n<=1)return 1;
-        
-        if(dp[n]!=-1)return dp[n];//Step03
-        
-        int ans=0;
-        //Consider i as root node
-        for(int i=1;i<=n;i++)
-        {
-            ans+= solveMem(i-1,dp)*solveMem(n-i,dp);
-        }
+        vector<int>dp(n+1,0);//Step01
         
         //Step02
-        dp[n]=ans;
+        dp[0]=1;
+        dp[1]=1;
+        
+        //Step03
+        //i represents no of nodes
+        for(int i=2;i<=n;i++)
+        {
+            // j represents which node is to be made root
+            for(int j=1;j<=i;j++)
+           {
+            dp[i]+=dp[j-1]*dp[i-j];
+           }
+        }
         return dp[n];
     }
     int numTrees(int n)
     {
-       vector<int>dp(n+1,-1);//Step01
-       return solveMem(n,dp);
+     
+       return solveTab(n);
     }
 };
