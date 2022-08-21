@@ -1,35 +1,37 @@
-//Top Down Approach
+//Bottom Up Approach
 class Solution {
 public:
-    int solveRecurr(int idx,int buy,vector<int>& prices, vector<vector<int>>&dp)
+    int solveRecurr(vector<int>& prices)
     {
-        //Base Case-->
-        if(idx==prices.size())return 0;
-        
-        //Step-->03
-        if(dp[idx][buy]!=-1)return dp[idx][buy];
-        int profit=0;
-        if(buy==1)//Buy is a parameter
-        {
-            int buyKaro=-prices[idx]+solveRecurr(idx+1,0,prices,dp);
-            int skipKaro=0+solveRecurr(idx+1,1,prices,dp);
-            profit=max(buyKaro,skipKaro);
-        }
-        else
-        {
-            int sellKaro=+prices[idx]+solveRecurr(idx+1,1,prices,dp);
-            int skipKaro=0+solveRecurr(idx+1,0,prices,dp);
-            profit=max(sellKaro,skipKaro);
-        }
+        int n=prices.size();
+        //Step-->01
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
         //Step-->02
-        dp[idx][buy]=profit;
-        return dp[idx][buy];
+        for(int idx=n-1;idx>=0;idx--)
+        {
+            for(int buy=0;buy<=1;buy++)
+            {
+               int profit=0;
+               if(buy==1)//Buy is a parameter
+               {
+                  int buyKaro=-prices[idx]+dp[idx+1][0];
+                  int skipKaro=0+dp[idx+1][1];
+                   profit=max(buyKaro,skipKaro);
+               }
+                else
+              {
+                  int sellKaro=+prices[idx]+dp[idx+1][1];
+                  int skipKaro=0+dp[idx+1][0];
+                  profit=max(sellKaro,skipKaro);
+              }
+               dp[idx][buy]=profit;
+             }
+        }
+        //Step-->03
+        return dp[0][1];
     }
     int maxProfit(vector<int>& prices) 
     {
-        
-        int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));//Step-->01
-        return solveRecurr(0,1,prices,dp);
+        return solveRecurr(prices);
     }
 };
