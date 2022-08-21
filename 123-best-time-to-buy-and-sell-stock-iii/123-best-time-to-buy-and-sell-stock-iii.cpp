@@ -1,4 +1,4 @@
-//Recursive Approach
+//Top Down Approach
 class Solution {
 public:
     int solveRecurr(int idx,int buy,vector<int>& prices,int limit,vector<vector<vector<int>>>&dp)
