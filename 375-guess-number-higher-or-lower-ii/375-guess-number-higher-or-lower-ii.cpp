@@ -1,25 +1,27 @@
-//Recursive Approach
+//Bottom Up Approach
 class Solution {
 public:
     
-    int solveRecurr(int start,int end, vector<vector<int>>&dp)
+    int solveTab(int n)
     {
-        if(start>=end)return 0;
-        
-        if( dp[start][end]!=-1)return  dp[start][end];//Step03
-        int amnt=INT_MAX;
-        for(int i=start;i<=end;i++)
+        vector<vector<int>>dp(n+2,vector<int>(n+2,0));
+        for(int start=n;start>=1;start--)
         {
-            amnt=min(amnt,i+max(solveRecurr(start,i-1,dp),solveRecurr(i+1,end,dp)));
+            for(int end=start;end<=n;end++)
+            {
+                if(start==end) continue;
+                int amnt=INT_MAX;
+                for(int i=start;i<=end;i++)
+                {
+                   amnt=min(amnt,i+max(dp[start][i-1],dp[i+1][end]));
+                }
+                dp[start][end]=amnt;
+            }
         }
-        //Step02
-        dp[start][end]=amnt;
-        return dp[start][end];
+        return dp[1][n];
     }
     int getMoneyAmount(int n)
     {
-        //Step01
-        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-        return solveRecurr(1,n,dp);
+        return solveTab(n);
     }
 };
