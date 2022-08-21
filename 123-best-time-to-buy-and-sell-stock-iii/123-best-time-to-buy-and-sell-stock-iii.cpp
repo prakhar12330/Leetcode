@@ -1,10 +1,12 @@
-//Bottom Up Approach
+//Space Optimization
 class Solution {
 public:
     int solveRecurr(vector<int>& prices)
     {
         int n=prices.size();
-        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));//Step01
+        //Step01
+        vector<vector<int>>curr(2,vector<int>(3,0));
+        vector<vector<int>>next(2,vector<int>(3,0));
         for(int idx=n-1;idx>=0;idx--)
         {
             for(int buy=0;buy<=1;buy++)
@@ -14,23 +16,24 @@ public:
                   int profit=0;
                   if(buy==1)//Buy is a parameter
                   {
-                     int buyKaro=-prices[idx]+dp[idx+1][0][limit];
-                     int skipKaro=0+dp[idx+1][1][limit];
+                     int buyKaro=-prices[idx]+next[0][limit];
+                     int skipKaro=0+next[1][limit];
                      profit=max(buyKaro,skipKaro);
                   }
                   else
                   {
-                   int sellKaro=+prices[idx]+dp[idx+1][1][limit-1];
-                   int skipKaro=0+dp[idx+1][0][limit];
+                   int sellKaro=+prices[idx]+next[1][limit-1];
+                   int skipKaro=0+next[0][limit];
                    profit=max(sellKaro,skipKaro);
                   }
                  
-                 dp[idx][buy][limit]=profit;
+                curr[buy][limit]=profit;
                                                
                }
+            next=curr;
             }
         }
-        return dp[0][1][2];
+        return next[1][2];
     }
     int maxProfit(vector<int>& prices) 
     {
