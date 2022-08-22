@@ -1,42 +1,36 @@
+//Top Down Approach Using Operation Number
 class Solution {
 public:
-    int solveRecurr(vector<int>& prices,int k)
+    
+    int solveRecurr(int idx,int operationNo,int k, vector<int>& prices, vector<vector<int>>&dp)
     {
-        int n=prices.size();
-        //Step01
-        vector<vector<int>>curr(2,vector<int>(k+1,0));
-        vector<vector<int>>next(2,vector<int>(k+1,0));
-        for(int idx=n-1;idx>=0;idx--)
+        if(idx==prices.size())return 0;
+        
+        if(operationNo==2*k)return 0;
+        
+        if( dp[idx][operationNo]!=-1)return  dp[idx][operationNo];
+        
+        int profit=0;
+        if(operationNo%2==0)
         {
-            for(int buy=0;buy<=1;buy++)
-            {
-              for(int limit=1;limit<=k;limit++)
-              {
-                  int profit=0;
-                  if(buy==1)//Buy is a parameter
-                  {
-                     int buyKaro=-prices[idx]+next[0][limit];
-                     int skipKaro=0+next[1][limit];
-                     profit=max(buyKaro,skipKaro);
-                  }
-                  else
-                  {
-                   int sellKaro=+prices[idx]+next[1][limit-1];
-                   int skipKaro=0+next[0][limit];
-                   profit=max(sellKaro,skipKaro);
-                  }
-                 
-                curr[buy][limit]=profit;
-                                               
-               }
-            next=curr;
-            }
+            int buyKaro=-prices[idx]+solveRecurr(idx+1,operationNo+1,k,prices,dp);
+            int skipKaro=0+solveRecurr(idx+1,operationNo,k,prices,dp);
+            profit=max(buyKaro,skipKaro);
         }
-        return next[1][k];
-    }    
-
+        else
+        {
+            int sellKaro=+prices[idx]+solveRecurr(idx+1,operationNo+1,k,prices,dp);
+            int skipKaro=0+solveRecurr(idx+1,operationNo,k,prices,dp);
+            profit=max(sellKaro,skipKaro);
+        }
+        
+        dp[idx][operationNo]=profit;
+        return  dp[idx][operationNo];
+    }
     int maxProfit(int k, vector<int>& prices)
     {
-        return solveRecurr(prices,k);
+        int n=prices.size();
+        vector<vector<int>>dp(n+1,vector<int>(2*k+1,-1));
+        return solveRecurr(0,0,k,prices,dp);
     }
 };
