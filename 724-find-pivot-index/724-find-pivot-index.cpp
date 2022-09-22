@@ -2,9 +2,9 @@ class Solution {
 public:
     
     /*
-     -Find the sum of the complete array 
+     -Find the sum of the whole array 
      -Now Traverse the array 
-       ~Kepp finding the left sum
+       ~Keep finding the left sum
        ~sum-leftsum-currElement will give you the right sum for every element
     */
     int pivotIndex(vector<int>& nums)
