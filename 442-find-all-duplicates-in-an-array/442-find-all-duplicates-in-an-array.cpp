@@ -4,6 +4,7 @@ public:
     {
         unordered_map<int,int>m;
         vector<int>res;
+        if(nums.empty())return {};
         for(int x:nums)
         {
             m[x]++;
