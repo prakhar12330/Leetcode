@@ -9,14 +9,13 @@ public:
         {
             m[x]++;
         }
-        for(int i=0;i<m.size();i++)
+        for(auto it:m)
         {
-            if(m[i]>=2)
+            if(it.second==2)
             {
-                res.push_back(i);
+                res.push_back(it.first);
             }
         }
-        
         return res;
     }
 };
