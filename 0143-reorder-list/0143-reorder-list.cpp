@@ -10,30 +10,45 @@
  */
 class Solution {
 public:
-    void reorderList(ListNode* head)
+    void reorderList(ListNode* head) 
     {
-        vector<int>temp;
-        ListNode* z=head;
-        while(z!=nullptr)
+        if (!head->next) return;
+        //Step01:-Dividing the LL into half
+        ListNode* slow=head;
+        ListNode* fast=head;
+        
+        while(fast->next && fast->next->next)
         {
-            temp.push_back(z->val);
-            z=z->next;
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        int n=temp.size();
-        int L=0;
-        int R=n-1;
-        for(int i=0;i<n;i++,head=head->next)
+        ListNode* mid=slow->next;
+        slow->next=NULL;
+        
+        //Step02-Reverse the half of the LL
+        ListNode* p=mid;
+        ListNode* q=mid->next;
+        ListNode* pp=NULL;
+        ListNode* qq=NULL;
+        
+        mid->next=NULL;
+        while(q)
         {
-            if((i+1)%2==0)
-            {
-                                
-             head->val=temp[R--];
-            }
-            else
-            {
-               head->val=temp[L++];
-            }
+            pp=p;
+            p=q;
+            q=q->next;
+            p->next=pp;
         }
         
+        mid=p;
+        
+        // step 3: merge first half and reversed last half
+        p = head;
+        q = mid;
+        while (q) {
+            pp = p; qq = q;
+            p = p->next; q = q->next;
+            pp->next = qq; qq->next = p;
+        }
     }
 };
